@@ -3,7 +3,7 @@ pipeline{
 
     stages{
 
-        stage('sonar quality check'){
+        stage('sonar static code analysis checks'){
 
             agent{
 
@@ -21,6 +21,17 @@ pipeline{
                 }
             }
 
+        }
+
+        stage('Quality Gate Status'){
+
+            steps{
+
+                script{
+
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                }
+            }
         }
     }
 }
